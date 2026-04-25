@@ -1,0 +1,298 @@
+{% load static %}
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Cholonto--Rush{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+      .navbar-brand {
+        font-weight: bold;
+        font-size: 1.5rem;
+        color: #ff6b35 !important;
+      }
+      .navbar {
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;
+      }
+      .nav-link {
+        font-weight: 500;
+        transition: color 0.3s ease;
+      }
+      .nav-link:hover {
+        color: #ff6b35 !important;
+      }
+      .btn-outline-light:hover {
+        background-color: #ff6b35;
+        border-color: #ff6b35;
+      }
+      .btn-primary {
+        background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);
+        border: none;
+        transition: transform 0.2s ease;
+      }
+      .btn-primary:hover {
+        transform: translateY(-2px);
+        background: linear-gradient(135deg, #e55a2b 0%, #e8821a 100%);
+      }
+      .navbar-text {
+        color: #ecf0f1 !important;
+      }
+      .dropdown-menu {
+        border: none;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        border-radius: 8px;
+      }
+      .dropdown-item:hover {
+        background-color: #ff6b35;
+        color: white;
+      }
+      body {
+        background-color: #f8f9fa;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .main-content {
+        min-height: calc(100vh - 200px);
+      }
+    </style>
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <i class="fas fa-motorcycle me-2"></i>Cholonto--Rush
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbars">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="fas fa-home me-1"></i>Home
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="fas fa-info-circle me-1"></i>About
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/services/">
+                <i class="fas fa-tools me-1"></i>Services
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/centers/">
+                <i class="fas fa-building me-1"></i>Centers
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/agents/">
+                <i class="fas fa-user-tie me-1"></i>Agents
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/cart/">
+                <i class="fas fa-shopping-cart me-1"></i>Cart
+                {% if user.is_authenticated and cart.items.count > 0 %}
+                  <span class="badge bg-danger ms-1">{{ cart.items.count }}</span>
+                {% endif %}
+              </a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" href="/orders/my/">
+                <i class="fas fa-list-alt me-1"></i>My Orders
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/">
+                <i class="fas fa-exclamation-triangle me-1"></i>Report Problem
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/reports/my-problems/">
+                <i class="fas fa-wrench me-1"></i>My Problems
+              </a>
+            </li>
+            {% endif %}
+          </ul>
+          <div class="d-flex">
+            {% if user.is_authenticated %}
+              <div class="dropdown">
+                <button class="btn btn-outline-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                  {% if user.profile and user.profile.photo and user.profile.photo.url %}
+                    <img src="{{ user.profile.photo.url }}" alt="Profile" class="rounded-circle me-2" style="width: 25px; height: 25px; object-fit: cover;">
+                  {% else %}
+                    <i class="fas fa-user me-1"></i>
+                  {% endif %}
+                  {% if user.first_name and user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                  {% else %}
+                    {{ user.get_username }}
+                  {% endif %}
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="/accounts/profile/">
+                    <i class="fas fa-user-edit me-2"></i>Edit Profile
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/orders/my/">
+                    <i class="fas fa-list-alt me-2"></i>My Orders
+                  </a></li>
+                  <li><a class="dropdown-item" href="/cart/">
+                    <i class="fas fa-shopping-cart me-2"></i>Cart
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/accounts/change-password/">
+                    <i class="fas fa-key me-2"></i>Change Password
+                  </a></li>
+                  <li><a class="dropdown-item" href="/admin/" target="_blank">
+                    <i class="fas fa-cog me-2"></i>Admin Panel
+                  </a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="/accounts/logout/" onclick="return confirm('Are you sure you want to logout?')">
+                    <i class="fas fa-sign-out-alt me-2"></i>Logout
+                  </a></li>
+                </ul>
+              </div>
+            {% else %}
+              <a class="btn btn-outline-light me-2" href="/accounts/login/">
+                <i class="fas fa-sign-in-alt me-1"></i>Login
+              </a>
+              <a class="btn btn-primary" href="/accounts/signup/">
+                <i class="fas fa-user-plus me-1"></i>Sign up
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <main class="container my-4 main-content">
+      {% if messages %}
+        <div class="mb-3">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+              {{ message }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+      {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-light py-5 mt-5" style="background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%) !important;">
+      <div class="container">
+        <!-- Decorative top border -->
+        <div class="text-center mb-4">
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="border-top border-warning" style="width: 100px; height: 2px;"></div>
+            <i class="fas fa-motorcycle fa-2x text-warning mx-3"></i>
+            <div class="border-top border-warning" style="width: 100px; height: 2px;"></div>
+          </div>
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div class="text-center text-lg-start">
+              <h4 class="fw-bold mb-3">
+                <i class="fas fa-motorcycle me-2 text-warning"></i>Cholonto--Rush
+              </h4>
+              <p class="text-light mb-4" style="opacity: 0.9;">Your trusted partner for on-road bike maintenance and emergency services. We're here 24/7 to keep you moving.</p>
+              
+              <!-- Social Media Links -->
+              <div class="d-flex justify-content-center justify-content-lg-start gap-3">
+                <a href="https://github.com/nizamuddinchowdhury-1421" target="_blank" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                  <i class="fab fa-github"></i>
+                </a>
+                <a href="#" target="_blank" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="mailto:nizamuddinchowdhury1421@gmail.com" class="btn btn-outline-light btn-sm rounded-circle" style="width: 40px; height: 40px;">
+                  <i class="fas fa-envelope"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          
+          <div class="col-lg-2 col-md-6 mb-4">
+            <h6 class="fw-bold mb-3 text-warning">Quick Links</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2"><a href="/" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">
+                <i class="fas fa-home me-2 text-warning"></i>Home
+              </a></li>
+              <li class="mb-2"><a href="/services/" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">
+                <i class="fas fa-tools me-2 text-warning"></i>Services
+              </a></li>
+              <li class="mb-2"><a href="/centers/" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">
+                <i class="fas fa-building me-2 text-warning"></i>Service Centers
+              </a></li>
+              <li class="mb-2"><a href="/agents/" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">
+                <i class="fas fa-user-tie me-2 text-warning"></i>Agents
+              </a></li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h6 class="fw-bold mb-3 text-warning">Services</h6>
+            <ul class="list-unstyled">
+              <li class="mb-2 text-light" style="opacity: 0.9;"><i class="fas fa-circle me-2 text-warning"></i>Flat Tyre Fix</li>
+              <li class="mb-2 text-light" style="opacity: 0.9;"><i class="fas fa-battery-half me-2 text-warning"></i>Battery Jumpstart</li>
+              <li class="mb-2 text-light" style="opacity: 0.9;"><i class="fas fa-cog me-2 text-warning"></i>Engine & Oil</li>
+              <li class="mb-2 text-light" style="opacity: 0.9;"><i class="fas fa-gas-pump me-2 text-warning"></i>Fuel Emergency</li>
+            </ul>
+          </div>
+          
+          <div class="col-lg-3 col-md-6 mb-4">
+            <h6 class="fw-bold mb-3 text-warning">Contact Info</h6>
+            <div class="contact-info">
+              <div class="mb-3">
+                <i class="fas fa-phone me-2 text-warning"></i>
+                <a href="tel:+8801799922009" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">+880 1799 922 009</a>
+              </div>
+              <div class="mb-3">
+                <i class="fas fa-envelope me-2 text-warning"></i>
+                <a href="mailto:nizamuddinchowdhury1421@gmail.com" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">nizamuddinchowdhury1421@gmail.com</a>
+              </div>
+              <div class="mb-3">
+                <i class="fab fa-github me-2 text-warning"></i>
+                <a href="https://github.com/nizamuddinchowdhury-1421" target="_blank" class="text-light text-decoration-none" style="opacity: 0.9; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.color='#ff6b35';" onmouseout="this.style.opacity='0.9'; this.style.color='white';">GitHub Profile</a>
+              </div>
+              <div class="mb-3">
+                <i class="fas fa-clock me-2 text-warning"></i>
+                <span class="text-light" style="opacity: 0.9;">24/7 Emergency Service</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Decorative separator -->
+        <div class="text-center my-4">
+          <div class="d-flex justify-content-center align-items-center">
+            <div class="border-top border-warning" style="width: 50px; height: 1px;"></div>
+            <i class="fas fa-star text-warning mx-3"></i>
+            <div class="border-top border-warning" style="width: 50px; height: 1px;"></div>
+          </div>
+        </div>
+        
+        <div class="text-center">
+          <p class="text-light mb-0" style="opacity: 0.8;">
+            <i class="fas fa-copyright me-1 text-warning"></i>2024 Cholonto--Rush. All rights reserved. | 
+            <span class="text-warning">Made with <i class="fas fa-heart text-danger"></i> in Bangladesh</span>
+          </p>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
+  </html>
+
