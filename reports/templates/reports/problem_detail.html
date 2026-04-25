@@ -1,0 +1,233 @@
+{% extends 'base.html' %}
+{% block title %}{{ problem.title }} - Cholonto--Rush{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Problem Details Card -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+          <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+              <i class="fas fa-exclamation-triangle me-2"></i>{{ problem.title }}
+            </h4>
+            <span class="badge bg-{% if problem.status == 'resolved' %}success{% elif problem.status == 'in_progress' %}warning{% elif problem.status == 'pending' %}secondary{% else %}info{% endif %} fs-6">
+              {{ problem.get_status_display }}
+            </span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong><i class="fas fa-user me-1"></i>Reported by:</strong>
+              <span>{{ problem.user.get_full_name|default:problem.user.username }}</span>
+            </div>
+            <div class="col-md-6">
+              <strong><i class="fas fa-calendar me-1"></i>Reported on:</strong>
+              <span>{{ problem.created_at|date:"F d, Y H:i" }}</span>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong><i class="fas fa-cog me-1"></i>Problem Type:</strong>
+              <span>{{ problem.get_problem_type_display }}</span>
+            </div>
+            <div class="col-md-6">
+              <strong><i class="fas fa-exclamation-circle me-1"></i>Priority:</strong>
+              <span class="badge bg-{% if problem.priority == 'urgent' %}danger{% elif problem.priority == 'high' %}warning{% elif problem.priority == 'medium' %}info{% else %}secondary{% endif %}">
+                {{ problem.get_priority_display }}
+              </span>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong><i class="fas fa-map-marker-alt me-1"></i>Location:</strong>
+              <span>{{ problem.location }}</span>
+            </div>
+            <div class="col-md-6">
+              <strong><i class="fas fa-phone me-1"></i>Contact:</strong>
+              <span>{{ problem.phone_number }}</span>
+            </div>
+          </div>
+          
+          {% if problem.assigned_agent %}
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <strong><i class="fas fa-user-tie me-1"></i>Assigned Agent:</strong>
+              <span>{{ problem.assigned_agent.get_full_name|default:problem.assigned_agent.username }}</span>
+            </div>
+            {% if problem.assigned_center %}
+            <div class="col-md-6">
+              <strong><i class="fas fa-building me-1"></i>Service Center:</strong>
+              <span>{{ problem.assigned_center.name }}</span>
+            </div>
+            {% endif %}
+          </div>
+          {% endif %}
+          
+          <div class="mb-3">
+            <strong><i class="fas fa-align-left me-1"></i>Description:</strong>
+            <p class="mt-2">{{ problem.description|linebreaks }}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Photos Section -->
+      {% if photos %}
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-images me-2"></i>Problem Photos
+          </h5>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            {% for photo in photos %}
+            <div class="col-md-4 mb-3">
+              <div class="card">
+                <img src="{{ photo.photo.url }}" class="card-img-top" alt="Problem photo" style="height: 200px; object-fit: cover; cursor: pointer;" onclick="openModal('{{ photo.photo.url }}')">
+                {% if photo.description %}
+                <div class="card-body p-2">
+                  <small class="text-muted">{{ photo.description }}</small>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- Responses Section -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-light">
+          <h5 class="mb-0">
+            <i class="fas fa-comments me-2"></i>Responses & Updates
+          </h5>
+        </div>
+        <div class="card-body">
+          {% if responses %}
+            {% for response in responses %}
+            <div class="border-start border-4 border-info ps-3 mb-3">
+              <div class="d-flex justify-content-between align-items-start mb-2">
+                <strong>{{ response.responder.get_full_name|default:response.responder.username }}</strong>
+                <small class="text-muted">{{ response.created_at|date:"F d, Y H:i" }}</small>
+              </div>
+              <p class="mb-2">{{ response.message|linebreaks }}</p>
+              {% if response.is_solution %}
+              <span class="badge bg-success">
+                <i class="fas fa-check-circle me-1"></i>Solution Provided
+              </span>
+              {% endif %}
+            </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted text-center py-3">
+              <i class="fas fa-comment-slash me-2"></i>No responses yet. Our team will review your problem and respond soon.
+            </p>
+          {% endif %}
+        </div>
+      </div>
+
+      <!-- Response Form (for agents) -->
+      {% if response_form %}
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white">
+          <h5 class="mb-0">
+            <i class="fas fa-reply me-2"></i>Add Response
+          </h5>
+        </div>
+        <div class="card-body">
+          <form method="post" action="{% url 'add_response' problem.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+              <label for="{{ response_form.message.id_for_label }}" class="form-label">Response Message</label>
+              {{ response_form.message }}
+            </div>
+            <div class="mb-3">
+              <div class="form-check">
+                {{ response_form.is_solution }}
+                <label class="form-check-label" for="{{ response_form.is_solution.id_for_label }}">
+                  This response solves the problem
+                </label>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-success">
+              <i class="fas fa-paper-plane me-1"></i>Send Response
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-light">
+          <h6 class="mb-0">
+            <i class="fas fa-info-circle me-2"></i>Quick Actions
+          </h6>
+        </div>
+        <div class="card-body">
+          <div class="d-grid gap-2">
+            {% if user == problem.user %}
+            <a href="{% url 'my_problems' %}" class="btn btn-outline-primary">
+              <i class="fas fa-list me-1"></i>My Problems
+            </a>
+            {% endif %}
+            
+            {% if user.is_staff or user.groups.filter.name == 'Agents' %}
+            <a href="{% url 'update_problem_status' problem.id %}" class="btn btn-outline-warning">
+              <i class="fas fa-edit me-1"></i>Update Status
+            </a>
+            <a href="{% url 'all_problems' %}" class="btn btn-outline-info">
+              <i class="fas fa-tasks me-1"></i>All Problems
+            </a>
+            {% endif %}
+            
+            <a href="{% url 'report_problem' %}" class="btn btn-outline-danger">
+              <i class="fas fa-plus me-1"></i>Report New Problem
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Photo Modal -->
+<div class="modal fade" id="photoModal" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Problem Photo</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body text-center">
+        <img id="modalImage" src="" class="img-fluid" alt="Problem photo">
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(imageSrc) {
+  document.getElementById('modalImage').src = imageSrc;
+  new bootstrap.Modal(document.getElementById('photoModal')).show();
+}
+</script>
+
+<style>
+.card {
+  border-radius: 10px;
+}
+.border-info {
+  border-color: #0dcaf0 !important;
+}
+</style>
+{% endblock %}

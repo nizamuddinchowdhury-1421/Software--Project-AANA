@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% block title %}My Problems - Cholonto--Rush{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+          <i class="fas fa-list-alt me-2"></i>My Problem Reports
+        </h2>
+        <a href="{% url 'report_problem' %}" class="btn btn-danger">
+          <i class="fas fa-plus me-1"></i>Report New Problem
+        </a>
+      </div>
+
+      {% if problems %}
+        <div class="row">
+          {% for problem in problems %}
+          <div class="col-lg-6 mb-4">
+            <div class="card shadow-sm border-0 h-100">
+              <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0">{{ problem.title }}</h6>
+                <span class="badge bg-{% if problem.status == 'resolved' %}success{% elif problem.status == 'in_progress' %}warning{% elif problem.status == 'pending' %}secondary{% else %}info{% endif %}">
+                  {{ problem.get_status_display }}
+                </span>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{ problem.description|truncatechars:150 }}</p>
+                
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <small class="text-muted">
+                      <i class="fas fa-cog me-1"></i>{{ problem.get_problem_type_display }}
+                    </small>
+                  </div>
+                  <div class="col-6">
+                    <small class="text-muted">
+                      <i class="fas fa-exclamation-circle me-1"></i>{{ problem.get_priority_display }}
+                    </small>
+                  </div>
+                </div>
+                
+                <div class="row mb-3">
+                  <div class="col-6">
+                    <small class="text-muted">
+                      <i class="fas fa-map-marker-alt me-1"></i>{{ problem.location|truncatechars:20 }}
+                    </small>
+                  </div>
+                  <div class="col-6">
+                    <small class="text-muted">
+                      <i class="fas fa-calendar me-1"></i>{{ problem.created_at|date:"M d, Y" }}
+                    </small>
+                  </div>
+                </div>
+                
+                {% if problem.assigned_agent %}
+                <div class="mb-3">
+                  <small class="text-success">
+                    <i class="fas fa-user-tie me-1"></i>Assigned to: {{ problem.assigned_agent.get_full_name|default:problem.assigned_agent.username }}
+                  </small>
+                </div>
+                {% endif %}
+                
+                {% if problem.photos.exists %}
+                <div class="mb-3">
+                  <small class="text-info">
+                    <i class="fas fa-images me-1"></i>{{ problem.photos.count }} photo{{ problem.photos.count|pluralize }}
+                  </small>
+                </div>
+                {% endif %}
+                
+                {% if problem.responses.exists %}
+                <div class="mb-3">
+                  <small class="text-primary">
+                    <i class="fas fa-comments me-1"></i>{{ problem.responses.count }} response{{ problem.responses.count|pluralize }}
+                  </small>
+                </div>
+                {% endif %}
+              </div>
+              <div class="card-footer bg-transparent">
+                <a href="{% url 'problem_detail' problem.id %}" class="btn btn-primary btn-sm">
+                  <i class="fas fa-eye me-1"></i>View Details
+                </a>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if problems.has_other_pages %}
+        <nav aria-label="Problems pagination">
+          <ul class="pagination justify-content-center">
+            {% if problems.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ problems.previous_page_number }}">Previous</a>
+              </li>
+            {% endif %}
+            
+            {% for num in problems.paginator.page_range %}
+              {% if problems.number == num %}
+                <li class="page-item active">
+                  <span class="page-link">{{ num }}</span>
+                </li>
+              {% elif num > problems.number|add:'-3' and num < problems.number|add:'3' %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            
+            {% if problems.has_next %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ problems.next_page_number }}">Next</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+        {% endif %}
+      {% else %}
+        <div class="text-center py-5">
+          <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+          <h5 class="text-muted">No problem reports yet</h5>
+          <p class="text-muted">You haven't reported any bike problems yet. Click the button below to report your first problem.</p>
+          <a href="{% url 'report_problem' %}" class="btn btn-danger">
+            <i class="fas fa-plus me-1"></i>Report Your First Problem
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<style>
+.card {
+  border-radius: 10px;
+  transition: transform 0.2s ease;
+}
+.card:hover {
+  transform: translateY(-2px);
+}
+.badge {
+  font-size: 0.75em;
+}
+</style>
+{% endblock %}

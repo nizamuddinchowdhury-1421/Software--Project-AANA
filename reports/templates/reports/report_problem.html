@@ -1,0 +1,172 @@
+{% extends 'base.html' %}
+{% block title %}Report a Problem - Cholonto--Rush{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      <div class="card shadow-lg border-0">
+        <div class="card-header bg-danger text-white text-center py-4">
+          <h2 class="mb-0">
+            <i class="fas fa-exclamation-triangle me-2"></i>Report a Problem
+          </h2>
+          <p class="mb-0 mt-2">Upload photos and describe your bike problem</p>
+        </div>
+        <div class="card-body p-5">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+              <label for="{{ form.title.id_for_label }}" class="form-label">
+                <i class="fas fa-heading me-1"></i>Problem Title
+              </label>
+              {{ form.title }}
+              {% if form.title.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.title.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.description.id_for_label }}" class="form-label">
+                <i class="fas fa-align-left me-1"></i>Problem Description
+              </label>
+              {{ form.description }}
+              {% if form.description.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.description.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="row">
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="{{ form.problem_type.id_for_label }}" class="form-label">
+                    <i class="fas fa-cog me-1"></i>Problem Type
+                  </label>
+                  {{ form.problem_type }}
+                  {% if form.problem_type.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.problem_type.errors %}
+                        <div>{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="mb-3">
+                  <label for="{{ form.priority.id_for_label }}" class="form-label">
+                    <i class="fas fa-exclamation-circle me-1"></i>Priority
+                  </label>
+                  {{ form.priority }}
+                  {% if form.priority.errors %}
+                    <div class="text-danger small mt-1">
+                      {% for error in form.priority.errors %}
+                        <div>{{ error }}</div>
+                      {% endfor %}
+                    </div>
+                  {% endif %}
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.location.id_for_label }}" class="form-label">
+                <i class="fas fa-map-marker-alt me-1"></i>Location
+              </label>
+              {{ form.location }}
+              {% if form.location.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.location.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-3">
+              <label for="{{ form.phone_number.id_for_label }}" class="form-label">
+                <i class="fas fa-phone me-1"></i>Contact Number
+              </label>
+              {{ form.phone_number }}
+              {% if form.phone_number.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.phone_number.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="mb-4">
+              <label for="{{ form.photos.id_for_label }}" class="form-label">
+                <i class="fas fa-camera me-1"></i>Problem Photos
+              </label>
+              {{ form.photos }}
+              {% if form.photos.help_text %}
+                <div class="form-text">{{ form.photos.help_text }}</div>
+              {% endif %}
+              {% if form.photos.errors %}
+                <div class="text-danger small mt-1">
+                  {% for error in form.photos.errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="{% url 'home' %}" class="btn btn-outline-secondary me-md-2">
+                <i class="fas fa-times me-1"></i>Cancel
+              </a>
+              <button type="submit" class="btn btn-danger">
+                <i class="fas fa-paper-plane me-1"></i>Report Problem
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="card-footer bg-light text-center py-3">
+          <small class="text-muted">
+            <i class="fas fa-info-circle me-1"></i>
+            Our team will review your problem and assign an agent to help you. You'll receive updates via your account.
+          </small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card {
+    border-radius: 15px;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%) !important;
+  }
+  
+  .form-control:focus, .form-select:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+  }
+  
+  .btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    transition: transform 0.2s ease;
+  }
+  
+  .btn-danger:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #c82333 0%, #bd2130 100%);
+  }
+</style>
+{% endblock %}

@@ -1,0 +1,206 @@
+{% extends 'base.html' %}
+{% block title %}All Problems - Cholonto--Rush{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>
+          <i class="fas fa-tasks me-2"></i>All Problem Reports
+        </h2>
+        <div>
+          <a href="{% url 'problem_stats' %}" class="btn btn-info">
+            <i class="fas fa-chart-bar me-1"></i>Statistics
+          </a>
+          <a href="{% url 'report_problem' %}" class="btn btn-danger">
+            <i class="fas fa-plus me-1"></i>New Report
+          </a>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="card shadow-sm border-0 mb-4">
+        <div class="card-body">
+          <form method="get" class="row g-3">
+            <div class="col-md-3">
+              <label class="form-label">Status</label>
+              <select name="status" class="form-select">
+                <option value="">All Statuses</option>
+                {% for value, label in status_choices %}
+                <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Priority</label>
+              <select name="priority" class="form-select">
+                <option value="">All Priorities</option>
+                {% for value, label in priority_choices %}
+                <option value="{{ value }}" {% if request.GET.priority == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Problem Type</label>
+              <select name="problem_type" class="form-select">
+                <option value="">All Types</option>
+                {% for value, label in problem_type_choices %}
+                <option value="{{ value }}" {% if request.GET.problem_type == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="col-md-3">
+              <label class="form-label">Search</label>
+              <input type="text" name="search" class="form-control" placeholder="Search problems..." value="{{ request.GET.search }}">
+            </div>
+            <div class="col-12">
+              <button type="submit" class="btn btn-primary">
+                <i class="fas fa-search me-1"></i>Filter
+              </button>
+              <a href="{% url 'all_problems' %}" class="btn btn-outline-secondary">
+                <i class="fas fa-times me-1"></i>Clear
+              </a>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Problems List -->
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+          {% if problems %}
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="table-light">
+                  <tr>
+                    <th>Problem</th>
+                    <th>User</th>
+                    <th>Type</th>
+                    <th>Priority</th>
+                    <th>Status</th>
+                    <th>Assigned</th>
+                    <th>Date</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for problem in problems %}
+                  <tr>
+                    <td>
+                      <div>
+                        <strong>{{ problem.title|truncatechars:30 }}</strong>
+                        <br>
+                        <small class="text-muted">{{ problem.location|truncatechars:25 }}</small>
+                      </div>
+                    </td>
+                    <td>
+                      <div class="d-flex align-items-center">
+                        {% if problem.user.profile.photo %}
+                          <img src="{{ problem.user.profile.photo.url }}" class="rounded-circle me-2" style="width: 30px; height: 30px; object-fit: cover;" alt="Profile">
+                        {% else %}
+                          <i class="fas fa-user-circle me-2 text-muted" style="font-size: 20px;"></i>
+                        {% endif %}
+                        <span>{{ problem.user.get_full_name|default:problem.user.username }}</span>
+                      </div>
+                    </td>
+                    <td>
+                      <span class="badge bg-secondary">{{ problem.get_problem_type_display }}</span>
+                    </td>
+                    <td>
+                      <span class="badge bg-{% if problem.priority == 'urgent' %}danger{% elif problem.priority == 'high' %}warning{% elif problem.priority == 'medium' %}info{% else %}secondary{% endif %}">
+                        {{ problem.get_priority_display }}
+                      </span>
+                    </td>
+                    <td>
+                      <span class="badge bg-{% if problem.status == 'resolved' %}success{% elif problem.status == 'in_progress' %}warning{% elif problem.status == 'pending' %}secondary{% else %}info{% endif %}">
+                        {{ problem.get_status_display }}
+                      </span>
+                    </td>
+                    <td>
+                      {% if problem.assigned_agent %}
+                        <span>{{ problem.assigned_agent.get_full_name|default:problem.assigned_agent.username }}</span>
+                      {% else %}
+                        <span class="text-muted">Unassigned</span>
+                      {% endif %}
+                    </td>
+                    <td>
+                      <small>{{ problem.created_at|date:"M d, Y" }}</small>
+                      <br>
+                      <small class="text-muted">{{ problem.created_at|time:"H:i" }}</small>
+                    </td>
+                    <td>
+                      <div class="btn-group" role="group">
+                        <a href="{% url 'problem_detail' problem.id %}" class="btn btn-sm btn-outline-primary">
+                          <i class="fas fa-eye"></i>
+                        </a>
+                        <a href="{% url 'update_problem_status' problem.id %}" class="btn btn-sm btn-outline-warning">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            {% if problems.has_other_pages %}
+            <nav aria-label="Problems pagination">
+              <ul class="pagination justify-content-center">
+                {% if problems.has_previous %}
+                  <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ problems.previous_page_number }}">Previous</a>
+                  </li>
+                {% endif %}
+                
+                {% for num in problems.paginator.page_range %}
+                  {% if problems.number == num %}
+                    <li class="page-item active">
+                      <span class="page-link">{{ num }}</span>
+                    </li>
+                  {% elif num > problems.number|add:'-3' and num < problems.number|add:'3' %}
+                    <li class="page-item">
+                      <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ num }}">{{ num }}</a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
+                
+                {% if problems.has_next %}
+                  <li class="page-item">
+                    <a class="page-link" href="?{% for key, value in request.GET.items %}{% if key != 'page' %}{{ key }}={{ value }}&{% endif %}{% endfor %}page={{ problems.next_page_number }}">Next</a>
+                  </li>
+                {% endif %}
+              </ul>
+            </nav>
+            {% endif %}
+          {% else %}
+            <div class="text-center py-5">
+              <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+              <h5 class="text-muted">No problems found</h5>
+              <p class="text-muted">No problem reports match your current filters.</p>
+              <a href="{% url 'all_problems' %}" class="btn btn-primary">
+                <i class="fas fa-refresh me-1"></i>View All Problems
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.table th {
+  border-top: none;
+  font-weight: 600;
+}
+.badge {
+  font-size: 0.75em;
+}
+.btn-group .btn {
+  margin: 0 1px;
+}
+</style>
+{% endblock %}
