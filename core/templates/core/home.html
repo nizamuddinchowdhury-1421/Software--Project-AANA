@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% block title %}Cholonto--Rush - On Road Bike Service{% endblock %}
+{% block content %}
+  {% load static %}
+  <div id="heroCarousel" class="carousel slide mb-5" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner rounded-3 overflow-hidden shadow">
+      <div class="carousel-item active">
+        <img src="{% static 'img/Bike_3.png' %}" width="1200" height="500"  class="d-block w-100" alt="banner image">
+        <div class="carousel-caption text-start">
+          <h5>On-Road Assistance</h5>
+          <p>Certified mechanics at your location.</p>
+          <p><a class="btn btn-primary" href="/services/">Browse Services</a></p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/Bike_2.png' %}" width="1200" height="500"  class="d-block w-100" alt="banner image">
+        <div class="carousel-caption">
+          <h5>Chain & Brake Care</h5>
+          <p>Precision tuning and safety checks.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/Bike_4.png' %}" width="1200" height="500"  class="d-block w-100" alt="banner image">
+        <div class="carousel-caption">
+          <h5>Pro Workshops</h5>
+          <p>Trusted network of partner service centers.</p>
+        </div>
+      </div>
+      <div class="carousel-item">
+        <img src="{% static 'img/Bike_5.png' %}" width="1200" height="500"  class="d-block w-100" alt="banner image">
+        <div class="carousel-caption text-end">
+          <h5>Ready to Ride</h5>
+          <p>Performance checks for every journey.</p>
+        </div>
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+
+  <header class="py-5 text-white text-center rounded-3" style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%);">
+    <div class="container">
+      <h1 class="display-5 fw-bold mb-3">
+        <i class="fas fa-motorcycle me-3"></i>On-Road Bike Maintenance & Rescue
+      </h1>
+      <p class="lead mb-4">Find the nearest service center and get help fast. Professional mechanics at your location.</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap">
+        <a href="/services/" class="btn btn-light btn-lg">
+          <i class="fas fa-tools me-2"></i>Browse Services
+        </a>
+        <a href="/centers/" class="btn btn-outline-light btn-lg">
+          <i class="fas fa-map-marker-alt me-2"></i>Find Centers
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <section class="my-5">
+    <div class="text-center mb-5">
+      <h2 class="h1 fw-bold mb-3">Our Services</h2>
+      <p class="lead text-muted">Professional bike maintenance services at your location</p>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-circle fa-3x text-danger"></i>
+            </div>
+            <h5 class="card-title fw-bold">Flat Tyre Fix</h5>
+            <p class="card-text text-muted">Quick puncture repair and tube replacement on the spot.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-battery-half fa-3x text-warning"></i>
+            </div>
+            <h5 class="card-title fw-bold">Battery Jumpstart</h5>
+            <p class="card-text text-muted">Emergency jumpstart and battery health check.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-cog fa-3x text-info"></i>
+            </div>
+            <h5 class="card-title fw-bold">Engine & Oil</h5>
+            <p class="card-text text-muted">Oil top-up and minor engine diagnostics roadside.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+       <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-tachometer-alt fa-3x text-danger"></i>
+            </div>
+            <h5 class="card-title fw-bold">Carburetor Modify</h5>
+            <p class="card-text text-muted">Modify carburetors to speed up performance.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-hand-paper fa-3x text-success"></i>
+            </div>
+            <h5 class="card-title fw-bold">Throttle Fix</h5>
+            <p class="card-text text-muted">Make the throttle smooth like butter.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+        <div class="col-md-4">
+        <div class="card h-100 shadow-sm border-0">
+          <div class="card-body text-center p-4">
+            <div class="mb-3">
+              <i class="fas fa-gas-pump fa-3x text-secondary"></i>
+            </div>
+            <h5 class="card-title fw-bold">Fuel Emergency</h5>
+            <p class="card-text text-muted">Emergency fuel delivery to your location.</p>
+            <a href="/services/" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-right me-1"></i>Learn More
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

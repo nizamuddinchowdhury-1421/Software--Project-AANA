@@ -1,0 +1,634 @@
+{% extends 'base.html' %}
+{% block title %}About Us - Cholonto--Rush{% endblock %}
+{% block content %}
+  {% load static %}
+  
+<style>
+  .hero-section {
+    background: linear-gradient(135deg, #5a4be7 0%, #8b4be7 100%);
+    position: relative;
+    overflow: hidden;
+    padding: 7rem 0; /* Increased padding for more vertical space */
+    min-height: 600px; /* Ensure sufficient height for impact */
+    display: flex;
+    align-items: center;
+  }
+  .hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('{% static "img/banner3.jpg" %}') center/cover no-repeat;
+    opacity: 0.15; /* Slightly increased opacity for subtle visibility */
+    z-index: 1;
+    filter: blur(3px); /* Add slight blur for a modern effect */
+  }
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .gradient-text {
+    background: linear-gradient(45deg, #ffd700, #ff8c00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+  }
+  .floating-icon {
+    animation: float 3s ease-in-out infinite;
+    font-size: 3rem; /* Larger icon for emphasis */
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); } /* Increased float distance */
+  }
+  .stats-counter {
+    font-size: 3rem; /* Larger font size for counters */
+    font-weight: 900;
+    color: #ffd700; /* Bright gold for visibility */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3); /* Subtle shadow for depth */
+  }
+  .text-white-75 {
+    color: rgba(255, 255, 255, 0.85); /* Slightly transparent for contrast */
+  }
+  .fade-in {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 1s ease forwards;
+  }
+  .fade-in-stats {
+    opacity: 0;
+    animation: fadeInUp 1s ease forwards;
+    animation-delay: 0.5s; /* Staggered animation for stats */
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  .pulse-animation {
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1); }
+  }
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .hero-section {
+      padding: 5rem 0;
+      min-height: 500px;
+    }
+    .display-3 {
+      font-size: 2.5rem; /* Smaller heading for mobile */
+    }
+    .lead.fs-4 {
+      font-size: 1.25rem; /* Adjust lead text size */
+    }
+    .stats-counter {
+      font-size: 2rem; /* Smaller stats for mobile */
+    }
+    .floating-icon {
+      font-size: 2rem;
+    }
+  }
+  @media (max-width: 576px) {
+    .hero-section {
+      padding: 4rem 0;
+    }
+    .display-3 {
+      font-size: 2rem;
+    }
+    .lead.fs-4 {
+      font-size: 1rem;
+    }
+    .stats-counter {
+      font-size: 1.5rem;
+    }
+  }
+</style>
+
+
+<section class="hero-section py-5 text-white text-center rounded-3 mb-5">
+  <div class="container hero-content">
+    <div class="fade-in">
+      <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInDown">
+        <i class="fas fa-motorcycle me-3 text-warning floating-icon"></i>
+        <span class="gradient-text">About Cholonto--Rush</span>
+      </h1>
+      <p class="lead mb-4 fs-4 text-white-75 animate__animated animate__fadeInUp animate__delay-1s">
+        Your trusted partner for on-road bike maintenance and emergency services
+      </p>
+      <div class="row justify-content-center mt-5">
+        <div class="col-md-3 col-6 text-center mb-4 fade-in-stats">
+          <div class="stats-counter">5000+</div>
+          <small class="text-white-75">Happy Customers</small>
+        </div>
+        <div class="col-md-3 col-6 text-center mb-4 fade-in-stats">
+          <div class="stats-counter">24/7</div>
+          <small class="text-white-75">Service Available</small>
+        </div>
+        <div class="col-md-3 col-6 text-center mb-4 fade-in-stats">
+          <div class="stats-counter">50+</div>
+          <small class="text-white-75">Service Centers</small>
+        </div>
+        <div class="col-md-3 col-6 text-center mb-4 fade-in-stats">
+          <div class="stats-counter">15min</div>
+          <small class="text-white-75">Avg Response</small>
+        </div>
+      </div>
+      <div class="mt-5">
+        <a href="/services/" class="btn btn-warning btn-lg pulse-animation animate__animated animate__fadeInUp animate__delay-2s" style="box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);">
+          <i class="fas fa-tools me-2"></i>Explore Services
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+  <section class="my-5">
+    <div class="container">
+      <div class="row g-5">
+        <div class="col-lg-6">
+          <div class="card h-100 card-hover border-0" style="background: linear-gradient(135deg, #f8f9ff 0%, #e3f2fd 100%);">
+            <div class="card-body p-5">
+              <div class="text-center mb-4">
+                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px;">
+                  <i class="fas fa-bullseye fa-2x"></i>
+                </div>
+                <h3 class="fw-bold gradient-text">Our Mission</h3>
+              </div>
+              <p class="lead text-muted mb-4">
+                To provide reliable, professional, and fast on-road bike maintenance services that keep you moving when you need it most. We believe that every journey should be smooth and worry-free.
+              </p>
+              <ul class="list-unstyled">
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-check fa-sm"></i>
+                  </div>
+                  <span>24/7 Emergency Response</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-check fa-sm"></i>
+                  </div>
+                  <span>Certified Professional Mechanics</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-check fa-sm"></i>
+                  </div>
+                  <span>Quick Response Time</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-check fa-sm"></i>
+                  </div>
+                  <span>Transparent Pricing</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="card h-100 card-hover border-0" style="background: linear-gradient(135deg, #fff8e1 0%, #f3e5ab 100%);">
+            <div class="card-body p-5">
+              <div class="text-center mb-4">
+                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px;">
+                  <i class="fas fa-eye fa-2x"></i>
+                </div>
+                <h3 class="fw-bold gradient-text">Our Vision</h3>
+              </div>
+              <p class="lead text-muted mb-4">
+                To become Bangladesh's leading on-road bike maintenance platform, connecting riders with trusted service providers and ensuring every bike journey is safe, reliable, and enjoyable.
+              </p>
+              <ul class="list-unstyled">
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-star fa-sm"></i>
+                  </div>
+                  <span>Nationwide Service Coverage</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-star fa-sm"></i>
+                  </div>
+                  <span>Technology-Driven Solutions</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-star fa-sm"></i>
+                  </div>
+                  <span>Customer-Centric Approach</span>
+                </li>
+                <li class="mb-3 d-flex align-items-center">
+                  <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 30px; height: 30px;">
+                    <i class="fas fa-star fa-sm"></i>
+                  </div>
+                  <span>Continuous Innovation</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h1 fw-bold mb-3 gradient-text">What We Do</h2>
+        <p class="lead text-muted fs-5">Comprehensive bike maintenance services at your doorstep</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 service-icon pulse-animation" style="width: 90px; height: 90px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);">
+              <i class="fas fa-tools fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Emergency Repairs</h5>
+            <p class="text-muted">Quick fixes for common bike issues on the road with professional tools and expertise.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 service-icon pulse-animation" style="width: 90px; height: 90px; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);">
+              <i class="fas fa-map-marker-alt fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Location Services</h5>
+            <p class="text-muted">Find the nearest service centers and mechanics using our advanced GPS technology.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 service-icon pulse-animation" style="width: 90px; height: 90px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);">
+              <i class="fas fa-user-tie fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Expert Agents</h5>
+            <p class="text-muted">Professional mechanics and service agents with years of experience and certification.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 service-icon pulse-animation" style="width: 90px; height: 90px; box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);">
+              <i class="fas fa-mobile-alt fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3">Easy Booking</h5>
+            <p class="text-muted">Simple online booking and secure payment system for hassle-free service requests.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h1 fw-bold mb-3 text-white">Our Services</h2>
+        <p class="lead text-white-50 fs-5">Professional bike maintenance services tailored to your needs</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);">
+                  <i class="fas fa-circle fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Flat Tyre Fix</h5>
+              <p class="card-text text-muted text-center">Quick puncture repair and tube replacement on the spot. Our mechanics carry all necessary tools and spare parts.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);">
+                  <i class="fas fa-battery-half fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Battery Jumpstart</h5>
+              <p class="card-text text-muted text-center">Emergency jumpstart service and battery health check. We'll get you back on the road in minutes.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);">
+                  <i class="fas fa-cog fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Engine & Oil</h5>
+              <p class="card-text text-muted text-center">Oil top-up and minor engine diagnostics. Keep your bike running smoothly with our expert care.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-danger text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(220, 53, 69, 0.3);">
+                  <i class="fas fa-tachometer-alt fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Carburetor Modify</h5>
+              <p class="card-text text-muted text-center">Professional carburetor modification to enhance your bike's performance and fuel efficiency.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);">
+                  <i class="fas fa-hand-paper fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Throttle Fix</h5>
+              <p class="card-text text-muted text-center">Smooth throttle adjustment and maintenance for better control and riding experience.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-secondary text-white rounded-circle d-inline-flex align-items-center justify-content-center pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);">
+                  <i class="fas fa-gas-pump fa-2x"></i>
+                </div>
+              </div>
+              <h5 class="card-title fw-bold text-center gradient-text">Fuel Emergency</h5>
+              <p class="card-text text-muted text-center">Emergency fuel delivery service to your location when you run out of gas.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h1 fw-bold mb-3 text-white">What Our Customers Say</h2>
+        <p class="lead text-white-50 fs-5">Real feedback from satisfied customers across Bangladesh</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="fas fa-user fa-lg"></i>
+                </div>
+              </div>
+              <div class="text-center mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <p class="text-muted text-center mb-3">"Amazing service! Got my bike fixed within 20 minutes. The mechanic was professional and the pricing was very reasonable."</p>
+              <h6 class="fw-bold text-center gradient-text">Rakib Hasan</h6>
+              <small class="text-muted text-center d-block">Dhaka</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="fas fa-user fa-lg"></i>
+                </div>
+              </div>
+              <div class="text-center mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <p class="text-muted text-center mb-3">"24/7 service is a lifesaver! Had a flat tire at midnight and they arrived in just 15 minutes. Highly recommended!"</p>
+              <h6 class="fw-bold text-center gradient-text">Fatima Begum</h6>
+              <small class="text-muted text-center d-block">Chittagong</small>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card h-100 card-hover border-0" style="background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);">
+            <div class="card-body p-4">
+              <div class="text-center mb-3">
+                <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center" style="width: 60px; height: 60px;">
+                  <i class="fas fa-user fa-lg"></i>
+                </div>
+              </div>
+              <div class="text-center mb-3">
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+                <i class="fas fa-star text-warning"></i>
+              </div>
+              <p class="text-muted text-center mb-3">"The app is so easy to use! Found the nearest service center quickly and the mechanic was already there when I arrived."</p>
+              <h6 class="fw-bold text-center gradient-text">Karim Ahmed</h6>
+              <small class="text-muted text-center d-block">Sylhet</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h1 fw-bold mb-3 gradient-text">Why Choose Cholonto--Rush?</h2>
+        <p class="lead text-muted fs-5">We're committed to providing the best bike maintenance experience</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);">
+              <i class="fas fa-clock fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">24/7 Service</h5>
+            <p class="text-muted">Round-the-clock emergency assistance whenever you need it, day or night.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);">
+              <i class="fas fa-certificate fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Certified Mechanics</h5>
+            <p class="text-muted">Professional, trained, and experienced mechanics with proper certification.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);">
+              <i class="fas fa-dollar-sign fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Fair Pricing</h5>
+            <p class="text-muted">Transparent and competitive pricing with no hidden costs or surprises.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="text-center service-card">
+            <div class="bg-info text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 80px; height: 80px; box-shadow: 0 4px 15px rgba(13, 202, 240, 0.3);">
+              <i class="fas fa-shield-alt fa-2x"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Reliable Service</h5>
+            <p class="text-muted">Trusted by thousands of riders across Bangladesh with proven track record.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6">
+          <h2 class="h1 fw-bold mb-4 text-white">Powered by Technology</h2>
+          <p class="lead text-white-50 mb-4 fs-5">
+            Our platform uses cutting-edge technology to connect you with the nearest service providers, 
+            track service requests in real-time, and ensure quick response times.
+          </p>
+          <div class="row g-4">
+            <div class="col-6">
+              <div class="d-flex align-items-center p-3 rounded-3" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-mobile-alt"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">Mobile App</h6>
+                  <small class="text-white-50">Easy booking on the go</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center p-3 rounded-3" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                <div class="bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">GPS Tracking</h6>
+                  <small class="text-white-50">Real-time location services</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center p-3 rounded-3" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                <div class="bg-warning text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-credit-card"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">Digital Payments</h6>
+                  <small class="text-white-50">Secure online transactions</small>
+                </div>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="d-flex align-items-center p-3 rounded-3" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
+                <div class="bg-info text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                  <i class="fas fa-headset"></i>
+                </div>
+                <div>
+                  <h6 class="fw-bold mb-1 text-white">24/7 Support</h6>
+                  <small class="text-white-50">Always here to help</small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="text-center">
+            <img src="{% static 'img/Bike_3.png' %}" class="img-fluid rounded-3 shadow-lg floating-icon" alt="Technology in Action" style="max-height: 400px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5 text-white text-center rounded-3" style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%); position: relative; overflow: hidden;">
+    <div class="container position-relative" style="z-index: 2;">
+      <h2 class="h1 fw-bold mb-4 fade-in">Ready to Experience Reliable Bike Service?</h2>
+      <p class="lead mb-4 fs-5 fade-in">Join thousands of satisfied customers who trust Cholonto--Rush for their bike maintenance needs</p>
+      <div class="d-flex justify-content-center gap-3 flex-wrap fade-in">
+        <a href="/services/" class="btn btn-light btn-lg pulse-animation" style="box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+          <i class="fas fa-tools me-2"></i>Browse Services
+        </a>
+        <a href="/centers/" class="btn btn-outline-light btn-lg pulse-animation" style="border-width: 2px;">
+          <i class="fas fa-map-marker-alt me-2"></i>Find Centers
+        </a>
+        {% if not user.is_authenticated %}
+        <a href="/accounts/signup/" class="btn btn-warning btn-lg pulse-animation" style="box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);">
+          <i class="fas fa-user-plus me-2"></i>Sign Up Now
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+
+  <section class="py-5" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2 class="h1 fw-bold mb-3 gradient-text">Get in Touch</h2>
+        <p class="lead text-muted fs-5">Have questions? We're here to help!</p>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="text-center service-card">
+            <div class="bg-primary text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);">
+              <i class="fas fa-phone fa-lg"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Call Us</h5>
+            <p class="text-muted fs-6">+880 1799 922 009</p>
+            <small class="text-muted">Available 24/7 for emergency support</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center service-card">
+            <div class="bg-success text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(25, 135, 84, 0.3);">
+              <i class="fas fa-envelope fa-lg"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Email Us</h5>
+            <p class="text-muted fs-6">nizamuddinchowdhury1421@gmail.com</p>
+            <small class="text-muted">We respond within 2 hours</small>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="text-center service-card">
+            <div class="bg-warning text-white rounded-circle d-inline-flex align-items-center justify-content-center mb-3 pulse-animation" style="width: 70px; height: 70px; box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);">
+              <i class="fab fa-github fa-lg"></i>
+            </div>
+            <h5 class="fw-bold mb-3 gradient-text">Follow Us</h5>
+            <p class="text-muted fs-6">GitHub: nizamuddinchowdhury-1421</p>
+            <small class="text-muted">Stay updated with our latest features</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
